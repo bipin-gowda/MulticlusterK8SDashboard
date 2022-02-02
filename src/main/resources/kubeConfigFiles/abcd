@@ -1,0 +1,32 @@
+apiVersion: v1s
+clusters:
+- cluster:
+    certificate-authority: /Users/bipin.gowda/.minikube/ca.crt
+    extensions:
+    - extension:
+        last-update: Thu, 06 Jan 2022 12:39:56 IST
+        provider: minikube.sigs.k8s.io
+        version: v1.23.0
+      name: cluster_info
+    server: https://192.168.99.100:8443
+  name: minikube
+contexts:
+- context:
+    cluster: minikube
+    extensions:
+    - extension:
+        last-update: Thu, 06 Jan 2022 12:39:56 IST
+        provider: minikube.sigs.k8s.io
+        version: v1.23.0
+      name: context_info
+    namespace: default
+    user: minikube
+  name: minikube
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: minikube
+  user:
+    client-certificate: /Users/bipin.gowda/.minikube/profiles/minikube/client.crt
+    client-key: /Users/bipin.gowda/.minikube/profiles/minikube/client.key

@@ -1,0 +1,171 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Kubernetes Dashboard</title>
+        <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <link rel="stylesheet" th:href="@{/css/main.css}"/>
+        <link rel="stylesheet" th:href="@{/css/xterm.css}" />
+        <script th:src="@{/js/xterm.js}"></script>
+    </head>
+
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/home">Kubernetes Dashboard</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li>
+                            <form name="form1">
+                                <select id="menu1" name="menu1" size="1">
+                                    <option disabled="disabled" selected="selected"><h7>Select a Namespace</h7></option>
+                                    <option  th:each="ns : ${ns}" th:text="${ns['Name']}"></option>
+                                </select>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                <div style="display: inline; float: right; font-size: larger;font-weight: 700;color: steelblue;" th:if="${clustername}"><span th:text="${clustername}"></span></div>
+            </div>
+        </nav>
+        <br>
+        <!--        <div id="terminal"></div>
+                <script>
+                    var term = new Terminal();
+                    term.open(document.getElementById('terminal'));
+                    term.write('Hello from \x1B[1;3;31mxterm.js\x1B[0m $ ')
+                </script>-->
+    </body>
+
+    <div class="container" id="homepage">
+        <div class="row">
+            <div class="col-2 no-float">
+                <br> 
+                Clusters
+                <br> 
+                <div class="list-group" id="cluster-list">
+                    <a th:href="@{/home}" custom:linkMethod="post" class="list-group-item list-group-item-action">View Clusters</a>
+                    <br>
+                    <form name="form2">
+                        <select id="menu2" name="menu2" size="1">
+                            <option disabled="disabled" selected="selected"><h7>Switch Cluster</h7></option>
+                            <option disabled="disabled"><hr></option>
+                            <option  th:each="c : ${clusters}" th:text="${c['name']}"></option>
+
+                        </select>
+                    </form>
+                    <br>
+                    <a th:href="@{/home}" custom:linkMethod="post" class="list-group-item list-group-item-action">Add Cluster</a>
+                    <br> 
+                </div>
+                Resources
+                <br>  
+                <div class="list-group" id="resource-list">
+                    <a th:href="@{/pods(cluster=${clustername})}" custom:linkMethod="post" class="list-group-item list-group-item-action">Pods</a>
+                    <a th:href="@{/nodes(cluster=${clustername})}" custom:linkMethod="post" class="list-group-item list-group-item-action">Nodes</a>
+                    <a th:href="@{/deployment(cluster=${clustername})}" custom:linkMethod="post" class="list-group-item list-group-item-action">Deployments</a>
+                    <a th:href="@{/namespaces(cluster=${clustername})}" custom:linkMethod="post" class="list-group-item list-group-item-action">Namespaces</a>
+                    <a class="list-group-item list-group-item-action disabled">Persistent Volumes</a>
+                    <a class="list-group-item list-group-item-action disabled">Persistent Volume Claims</a>
+                </div>
+            </div>
+            <div class="col" id="secondcol" th:if="${no_of_deploys}">
+                <span th:text="${no_of_deploys}"></span>
+            </div>
+            <div class="col" id="secondcol" th:if="${no_of_deploys}==null">
+                <div class="card">
+                    <div class="card-body">
+                        <div th:if="${resource}">
+                            <br>
+                            <h4 style="display: inline"><div style="display: inline" th:text="${resourceHead}"></div>
+                                <div style="display: inline; float: right;" th:if="${namespace}"><span th:text="${namespace}"></span></div></h4>
+                            <hr> 
+                            <div th:if="${#lists.size(resource)} != 0">
+
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th th:each="h : ${headings}" th:text="${h}" scope="col">#</th>                                   
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        <tr th:style="${resource['Status']} != 'Active' ? 'background: rgba(255,0,0,0.1)' : 'background: inherit'" th:each="resource : ${resource}" th:if="${resourceHead == 'Namespaces'}">
+
+                                            <th th:text="${resource['Name']}"></td>
+                                            <td th:text="${resource['Status']}"></td>
+                                            <td th:text="${resource['Age']}"></td>
+                                        </tr>
+                                        <tr  th:style="${resource['Status']} == 'false' ? 'background: rgba(255,0,0,0.1)' : 'background: inherit'"  th:each="resource : ${resource}" th:if="${resourceHead == 'Pods'}">
+                                            <th th:text="${resource['Name']}"></td>
+                                            <td th:text="${resource['Ready']}"></td>
+                                            <td th:text="${resource['Restarts']}"></td>
+                                            <td th:text="${resource['Status']}"></td>
+                                            <td th:text="${resource['Age']}"></td>
+                                            <td th:text="${resource['Namespace']}"></td>
+                                        </tr>
+                                        <tr th:style="${resource['status']} != 'Ready' ? 'background: rgba(255,0,0,0.1)' : 'background: inherit'" th:each="resource : ${resource}" th:if="${resourceHead == 'Nodes'}">
+
+                                            <th th:text="${resource['Name']}"></td>
+                                            <td th:text="${resource['Version']}"></td>
+
+                                            <td th:text="${resource['status']}"></td>
+                                            <td th:text="${resource['Age']}"></td>
+                                        </tr>
+                                        <tr  th:each="resource : ${resource}" th:if="${resourceHead == 'Deployments'}">
+
+                                            <th th:text="${resource['Name']}"></td>
+
+                                            <td th:text="${resource['Up-To-Date']}"></td>
+                                            <td th:text="${resource['Available']}"></td>
+                                            <td th:text="${resource['Ready']}"></td>
+                                            <td th:text="${resource['Namespace']}"></td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div th:if="${#lists.size(resource)} == 0">
+                                <br>
+                                <center><h6>There are no <span th:text="${resourceHead}"></span> to be displayed</h6></center>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+    <script type="text/javascript">
+        const allowed_namespace_changer = ["pod","deployment"];
+        let url = new URL(location.href);          
+        if (allowed_namespace_changer.some(v => url.href.includes(v))) {
+        // There's at least one
+        var urlmenu = document.getElementById('menu1');
+        urlmenu.onchange = function() {
+        let params = new URLSearchParams(url.search);
+        console.log(url);
+        params.delete('namespace');
+        params.append('namespace', this.value);
+        document.location.search = params;
+        }
+        }
+        var urlmenu2 = document.getElementById('menu2');
+        urlmenu2.onchange = function() {
+        let params = new URLSearchParams(url.search);
+        console.log(url);
+        params.delete('cluster');
+        params.append('cluster', this.value);
+        document.location.search = params;
+        };
+
+    </script>
+</body>
+</html>

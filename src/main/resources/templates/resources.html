@@ -1,0 +1,737 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Content-Language" content="en">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Kubernetes Dashboard</title>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
+        <meta name="description" content="This is an example dashboard created using build-in elements and components.">
+        <meta name="msapplication-tap-highlight" content="no">
+        <link href="css/main_1.css" rel="stylesheet">   
+        <link href="css/main.css" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{webjars/bootstrap/4.2.1/css/bootstrap.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/main.css}"/>
+        <link rel="stylesheet" th:href="@{/css/xterm.css}" />
+        <script th:src="@{/js/xterm.js}"></script>
+    </head>
+
+    <body>
+        <div class="app-container app-theme-white body-tabs-shadow fixed-header">
+            <div class="app-header header-shadow bg-vicious-stance header-text-light">
+                <div class="app-header__logo">
+
+                    <div class="logo-src" >
+                        <img src="images/logo.png" width="auto" height="25px" alt="alt"/>
+                    </div>
+                    <div class="header__pane ml-auto">
+                        <div>
+                            <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="app-header__mobile-menu">
+                    <div>
+                        <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                            <span class="hamburger-box">
+                                <span class="hamburger-inner"></span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="app-header__menu">
+                    <span>
+                        <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                            <span class="btn-icon-wrapper">
+                                <i class="fa fa-ellipsis-v fa-w-6"></i>
+                            </span>
+                        </button>
+                    </span>
+                </div>    
+                <div class="app-header__content">
+                    <div class="app-header-left">
+                        <div class="search-wrapper">
+                            <div class="input-holder">
+                                <input type="text" class="search-input" placeholder="Type to search">
+                                <button class="search-icon"><span></span></button>
+                            </div>
+                            <button class="close"></button>
+                        </div>
+                        <!--                    <ul class="header-menu nav">
+                                                <li class="nav-item">
+                                                    <a href="javascript:void(0);" class="nav-link">
+                                                        <i class="nav-link-icon fa fa-database"> </i>
+                                                        Statistics
+                                                    </a>
+                                                </li>
+                                                <li class="btn-group nav-item">
+                                                    <a href="javascript:void(0);" class="nav-link">
+                                                        <i class="nav-link-icon fa fa-edit"></i>
+                                                        Projects
+                                                    </a>
+                                                </li>
+                                                <li class="dropdown nav-item">
+                                                    <a href="javascript:void(0);" class="nav-link">
+                                                        <i class="nav-link-icon fa fa-cog"></i>
+                                                        Settings
+                                                    </a>
+                                                </li>
+                                            </ul>        -->
+                    </div>
+                    <div class="app-header-right">
+                        <div class="header-btn-lg pr-0">
+                            <div class="widget-content p-0">
+                                <div class="widget-content-wrapper">
+                                    <div class="widget-content-left">
+                                        <div class="btn-group">
+                                            <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="p-0 btn">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                                                <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+                                                </svg>
+
+                                            </a>
+                                            <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu dropdown-menu-right">
+                                                <button type="button" tabindex="0" class="dropdown-item">User Account</button>
+                                                <button type="button" tabindex="0" class="dropdown-item">Settings</button>
+                                                <hr>
+                                                <a th:href="@{/login}" custom:linkMethod="post">
+                                                    <button type="button" tabindex="0" class="dropdown-item">Logout</button>
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!--                                    <div class="widget-content-left  ml-3 header-user-info">
+                                                                            <div class="widget-heading">
+                                                                                Alina Mclourd
+                                                                            </div>
+                                                                            <div class="widget-subheading">
+                                                                                VP People Manager
+                                                                            </div>
+                                                                        </div>-->
+                                    <!--                                    <div class="widget-content-right header-user-info ml-3">
+                                                                            <button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
+                                                                                <i class="fa text-white fa-calendar pr-1 pl-1"></i>
+                                                                            </button>
+                                                                        </div>-->
+                                </div>
+                            </div>
+                        </div>        </div>
+                </div>
+            </div>        
+            <div class="ui-theme-settings">
+                <button type="button" id="TooltipDemo" class="btn-open-options btn btn-warning">
+                    <i class="fa fa-cog fa-w-16 fa-spin fa-2x"></i>
+                </button>
+                <div class="theme-settings__inner">
+                    <div class="scrollbar-container">
+                        <div class="theme-settings__options-wrapper">
+                            <h3 class="themeoptions-heading">Layout Options
+                            </h3>
+                            <div class="p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-3">
+                                                    <div class="switch has-switch switch-container-class" data-class="fixed-header">
+                                                        <div class="switch-animate switch-on">
+                                                            <input type="checkbox" checked data-toggle="toggle" data-onstyle="success">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading">Fixed Header
+                                                    </div>
+                                                    <div class="widget-subheading">Makes the header top fixed, always visible!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-3">
+                                                    <div class="switch has-switch switch-container-class" data-class="fixed-sidebar">
+                                                        <div class="switch-animate switch-on">
+                                                            <input type="checkbox" data-toggle="toggle" data-onstyle="success">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading">Fixed Sidebar
+                                                    </div>
+                                                    <div class="widget-subheading">Makes the sidebar left fixed, always visible!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="widget-content p-0">
+                                            <div class="widget-content-wrapper">
+                                                <div class="widget-content-left mr-3">
+                                                    <div class="switch has-switch switch-container-class" data-class="fixed-footer">
+                                                        <div class="switch-animate switch-off">
+                                                            <input type="checkbox" data-toggle="toggle" data-onstyle="success">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading">Fixed Footer
+                                                    </div>
+                                                    <div class="widget-subheading">Makes the app footer bottom fixed, always visible!
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="themeoptions-heading">
+                                <div>
+                                    Header Options
+                                </div>
+                                <button type="button" class="btn-pill btn-shadow btn-wide ml-auto btn btn-focus btn-sm switch-header-cs-class" data-class="">
+                                    Restore Default
+                                </button>
+                            </h3>
+                            <div class="p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <h5 class="pb-2">Choose Color Scheme
+                                        </h5>
+                                        <div class="theme-settings-swatches">
+                                            <div class="swatch-holder bg-primary switch-header-cs-class" data-class="bg-primary header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-secondary switch-header-cs-class" data-class="bg-secondary header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-success switch-header-cs-class" data-class="bg-success header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-info switch-header-cs-class" data-class="bg-info header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-warning switch-header-cs-class" data-class="bg-warning header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-danger switch-header-cs-class" data-class="bg-danger header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-light switch-header-cs-class" data-class="bg-light header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-dark switch-header-cs-class" data-class="bg-dark header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-focus switch-header-cs-class" data-class="bg-focus header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-alternate switch-header-cs-class" data-class="bg-alternate header-text-light">
+                                            </div>
+                                            <div class="divider">
+                                            </div>
+                                            <div class="swatch-holder bg-vicious-stance switch-header-cs-class" data-class="bg-vicious-stance header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-midnight-bloom switch-header-cs-class" data-class="bg-midnight-bloom header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-night-sky switch-header-cs-class" data-class="bg-night-sky header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-slick-carbon switch-header-cs-class" data-class="bg-slick-carbon header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-asteroid switch-header-cs-class" data-class="bg-asteroid header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-royal switch-header-cs-class" data-class="bg-royal header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-warm-flame switch-header-cs-class" data-class="bg-warm-flame header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-night-fade switch-header-cs-class" data-class="bg-night-fade header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-sunny-morning switch-header-cs-class" data-class="bg-sunny-morning header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-tempting-azure switch-header-cs-class" data-class="bg-tempting-azure header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-amy-crisp switch-header-cs-class" data-class="bg-amy-crisp header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-heavy-rain switch-header-cs-class" data-class="bg-heavy-rain header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-mean-fruit switch-header-cs-class" data-class="bg-mean-fruit header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-malibu-beach switch-header-cs-class" data-class="bg-malibu-beach header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-deep-blue switch-header-cs-class" data-class="bg-deep-blue header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-ripe-malin switch-header-cs-class" data-class="bg-ripe-malin header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-arielle-smile switch-header-cs-class" data-class="bg-arielle-smile header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-plum-plate switch-header-cs-class" data-class="bg-plum-plate header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-happy-fisher switch-header-cs-class" data-class="bg-happy-fisher header-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-happy-itmeo switch-header-cs-class" data-class="bg-happy-itmeo header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-mixed-hopes switch-header-cs-class" data-class="bg-mixed-hopes header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-strong-bliss switch-header-cs-class" data-class="bg-strong-bliss header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-grow-early switch-header-cs-class" data-class="bg-grow-early header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-love-kiss switch-header-cs-class" data-class="bg-love-kiss header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-premium-dark switch-header-cs-class" data-class="bg-premium-dark header-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-happy-green switch-header-cs-class" data-class="bg-happy-green header-text-light">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="themeoptions-heading">
+                                <div>Sidebar Options</div>
+                                <button type="button" class="btn-pill btn-shadow btn-wide ml-auto btn btn-focus btn-sm switch-sidebar-cs-class" data-class="">
+                                    Restore Default
+                                </button>
+                            </h3>
+                            <div class="p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <h5 class="pb-2">Choose Color Scheme
+                                        </h5>
+                                        <div class="theme-settings-swatches">
+                                            <div class="swatch-holder bg-primary switch-sidebar-cs-class" data-class="bg-primary sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-secondary switch-sidebar-cs-class" data-class="bg-secondary sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-success switch-sidebar-cs-class" data-class="bg-success sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-info switch-sidebar-cs-class" data-class="bg-info sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-warning switch-sidebar-cs-class" data-class="bg-warning sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-danger switch-sidebar-cs-class" data-class="bg-danger sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-light switch-sidebar-cs-class" data-class="bg-light sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-dark switch-sidebar-cs-class" data-class="bg-dark sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-focus switch-sidebar-cs-class" data-class="bg-focus sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-alternate switch-sidebar-cs-class" data-class="bg-alternate sidebar-text-light">
+                                            </div>
+                                            <div class="divider">
+                                            </div>
+                                            <div class="swatch-holder bg-vicious-stance switch-sidebar-cs-class" data-class="bg-vicious-stance sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-midnight-bloom switch-sidebar-cs-class" data-class="bg-midnight-bloom sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-night-sky switch-sidebar-cs-class" data-class="bg-night-sky sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-slick-carbon switch-sidebar-cs-class" data-class="bg-slick-carbon sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-asteroid switch-sidebar-cs-class" data-class="bg-asteroid sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-royal switch-sidebar-cs-class" data-class="bg-royal sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-warm-flame switch-sidebar-cs-class" data-class="bg-warm-flame sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-night-fade switch-sidebar-cs-class" data-class="bg-night-fade sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-sunny-morning switch-sidebar-cs-class" data-class="bg-sunny-morning sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-tempting-azure switch-sidebar-cs-class" data-class="bg-tempting-azure sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-amy-crisp switch-sidebar-cs-class" data-class="bg-amy-crisp sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-heavy-rain switch-sidebar-cs-class" data-class="bg-heavy-rain sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-mean-fruit switch-sidebar-cs-class" data-class="bg-mean-fruit sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-malibu-beach switch-sidebar-cs-class" data-class="bg-malibu-beach sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-deep-blue switch-sidebar-cs-class" data-class="bg-deep-blue sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-ripe-malin switch-sidebar-cs-class" data-class="bg-ripe-malin sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-arielle-smile switch-sidebar-cs-class" data-class="bg-arielle-smile sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-plum-plate switch-sidebar-cs-class" data-class="bg-plum-plate sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-happy-fisher switch-sidebar-cs-class" data-class="bg-happy-fisher sidebar-text-dark">
+                                            </div>
+                                            <div class="swatch-holder bg-happy-itmeo switch-sidebar-cs-class" data-class="bg-happy-itmeo sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-mixed-hopes switch-sidebar-cs-class" data-class="bg-mixed-hopes sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-strong-bliss switch-sidebar-cs-class" data-class="bg-strong-bliss sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-grow-early switch-sidebar-cs-class" data-class="bg-grow-early sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-love-kiss switch-sidebar-cs-class" data-class="bg-love-kiss sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-premium-dark switch-sidebar-cs-class" data-class="bg-premium-dark sidebar-text-light">
+                                            </div>
+                                            <div class="swatch-holder bg-happy-green switch-sidebar-cs-class" data-class="bg-happy-green sidebar-text-light">
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <h3 class="themeoptions-heading">
+                                <div>Main Content Options</div>
+                                <button type="button" class="btn-pill btn-shadow btn-wide ml-auto active btn btn-focus btn-sm">Restore Default
+                                </button>
+                            </h3>
+                            <div class="p-3">
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <h5 class="pb-2">Page Section Tabs
+                                        </h5>
+                                        <div class="theme-settings-swatches">
+                                            <div role="group" class="mt-2 btn-group">
+                                                <button type="button" class="btn-wide btn-shadow btn-primary btn btn-secondary switch-theme-class" data-class="body-tabs-line">
+                                                    Line
+                                                </button>
+                                                <button type="button" class="btn-wide btn-shadow btn-primary active btn btn-secondary switch-theme-class" data-class="body-tabs-shadow">
+                                                    Shadow
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>        
+            <div class="app-main">
+                <div class="app-sidebar sidebar-shadow bg-dark sidebar-text-light">
+                    <div class="app-header__logo">
+                        <div class="logo-src"></div>
+                        <div class="header__pane ml-auto">
+                            <div>
+                                <button type="button" class="hamburger close-sidebar-btn hamburger--elastic" data-class="closed-sidebar">
+                                    <span class="hamburger-box">
+                                        <span class="hamburger-inner"></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="app-header__mobile-menu">
+                        <div>
+                            <button type="button" class="hamburger hamburger--elastic mobile-toggle-nav">
+                                <span class="hamburger-box">
+                                    <span class="hamburger-inner"></span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="app-header__menu">
+                        <span>
+                            <button type="button" class="btn-icon btn-icon-only btn btn-primary btn-sm mobile-toggle-header-nav">
+                                <span class="btn-icon-wrapper">
+                                    <i class="fa fa-ellipsis-v fa-w-6"></i>
+                                </span>
+                            </button>
+                        </span>
+                    </div>    <div class="scrollbar-sidebar">
+                        <div class="app-sidebar__inner">
+                            <ul class="vertical-nav-menu">
+                                <!--                                <li class="app-sidebar__heading">Cluster</li>
+                                                                <li>
+                                                                    <a href="index" class="mm-active">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-server" viewBox="0 0 16 16">
+                                                                        <path d="M1.333 2.667C1.333 1.194 4.318 0 8 0s6.667 1.194 6.667 2.667V4c0 1.473-2.985 2.667-6.667 2.667S1.333 5.473 1.333 4V2.667z"/>
+                                                                        <path d="M1.333 6.334v3C1.333 10.805 4.318 12 8 12s6.667-1.194 6.667-2.667V6.334a6.51 6.51 0 0 1-1.458.79C11.81 7.684 9.967 8 8 8c-1.966 0-3.809-.317-5.208-.876a6.508 6.508 0 0 1-1.458-.79z"/>
+                                                                        <path d="M14.667 11.668a6.51 6.51 0 0 1-1.458.789c-1.4.56-3.242.876-5.21.876-1.966 0-3.809-.316-5.208-.876a6.51 6.51 0 0 1-1.458-.79v1.666C1.333 14.806 4.318 16 8 16s6.667-1.194 6.667-2.667v-1.665z"/>
+                                                                        </svg>
+                                                                        <span>
+                                                                            View Clusters
+                                                                        </span>
+                                                                    </a>
+                                                                </li>-->
+
+                                <li class="app-sidebar__heading">Dashboards</li>
+
+                                <li>
+                                    <a href="#" style="font-size: larger;">
+                                        Clusters
+
+                                    </a>
+                                    <ul
+
+                                        >
+                                        <li>
+                                            <a th:href="@{/view-clusters}">
+                                                <i class="metismenu-icon"></i>
+                                                View clusters
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/register-cluster}">
+                                                <i class="metismenu-icon">
+                                                </i>
+                                                Register new cluster
+                                            </a>
+                                        </li>
+
+
+                                    </ul>
+                                </li>
+                                <a th:href="@{/cluster-resources(cluster=${clustername})}" custom:linkMethod="post">
+                                    <li class="app-sidebar__heading" >
+                                        <span th:text="${clustername}"></span>
+                                    </li>
+                                </a>
+                                <li>
+                                    <a href="#" style="font-size: larger;">
+                                        Resources
+
+                                    </a>
+                                    <ul class="mm-show">
+                                        <li>
+                                            <a th:href="@{/pods(cluster=${clustername})}" custom:linkMethod="post" >
+                                                <i class="metismenu-icon"></i>
+                                                Pods
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/deployment(cluster=${clustername})}" custom:linkMethod="post" >
+                                                <i class="metismenu-icon">
+                                                </i>
+                                                Deployments
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/nodes(cluster=${clustername})}" custom:linkMethod="post" >
+                                                <i class="metismenu-icon">
+                                                </i>
+                                                Nodes
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a th:href="@{/namespaces(cluster=${clustername})}" custom:linkMethod="post" >
+                                                <i class="metismenu-icon">
+                                                </i>
+                                                Namespaces
+                                            </a>
+                                        </li>
+
+
+
+                                    </ul>
+                                </li>                   
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="app-main__outer">
+                    <div class="col" style="margin-top: 15px;">
+                        <div th:if="${no_of_deploys}">
+                            <div class="app-page-title">
+                                <div class="page-title-wrapper">
+                                    <div class="page-title-heading">
+
+
+
+                                        <div>
+                                            <!--                                            <div class="page-title-subheading">This is an example dashboard created using build-in elements and components.
+                                                                                        </div>-->
+                                            <h1>Cluster</h1>
+                                            <div class="page-title-subheading"><span th:text="${clustername}"></span></div>
+                                        </div>
+                                    </div>
+                                </div>  
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-6 col-xl-4">
+                                    <a th:href="@{/nodes(cluster=${clustername})}" custom:linkMethod="post" >
+                                        <div class="card mb-3 widget-content bg-midnight-bloom">
+                                            <div class="widget-content-wrapper text-white">
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading">Total Nodes</div>
+                                                    <!--                                                <div class="widget-subheading">Last year expenses</div>-->
+                                                </div>
+                                                <div class="widget-content-right">
+                                                    <div class="widget-numbers text-white"><span th:text="${no_of_nodes}"></span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="col-md-6 col-xl-4">
+                                    <a th:href="@{/deployment(cluster=${clustername})}" custom:linkMethod="post" >
+                                        <div class="card mb-3 widget-content bg-arielle-smile">
+                                            <div class="widget-content-wrapper text-white">
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading">Total Deployments</div>
+                                                    <div class="widget-subheading">Applications</div>
+                                                </div>
+                                                <div class="widget-content-right">
+                                                    <div class="widget-numbers text-white"><span th:text="${no_of_deploys}"></span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-xl-4">
+                                    <a th:href="@{/namespaces(cluster=${clustername})}" custom:linkMethod="post" >
+                                        <div class="card mb-3 widget-content bg-grow-early">
+                                            <div class="widget-content-wrapper text-white">
+                                                <div class="widget-content-left">
+                                                    <div class="widget-heading">Namespaces</div>
+                                                    <!--                                                <div class="widget-subheading"></div>-->
+                                                </div>
+                                                <div class="widget-content-right">
+                                                    <div class="widget-numbers text-white"><span th:text="${no_of_ns}"></span></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="d-xl-none d-lg-block col-md-6 col-xl-4">
+                                    <div class="card mb-3 widget-content bg-premium-dark">
+                                        <div class="widget-content-wrapper text-white">
+                                            <div class="widget-content-left">
+                                                <div class="widget-heading">Products Sold</div>
+                                                <div class="widget-subheading">Revenue streams</div>
+                                            </div>
+                                            <div class="widget-content-right">
+                                                <div class="widget-numbers text-warning"><span>$14M</span></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card" th:if="${no_of_deploys}==null">
+                            <div class="card-body">
+                                <div th:if="${resource}">
+                                    <br>
+                                    <h4 style="display: inline"><div style="display: inline;font-weight: bold" th:text="${resourceHead}"></div>
+                                        <div style="display: inline; float: right;" th:if="${namespace}"><span th:text="${namespace}"></span></div></h4>
+                                    <hr>
+                                    <div >
+
+                                        <form name="form2" style="display: inline-block;">
+                                            <select id="menu2" name="menu2" size="1" class="form-control">
+                                                <option disabled="disabled" selected="selected"><h7>Switch Cluster</h7></option>
+
+                                                <option  th:each="c : ${clusters}" th:text="${c['name']}"></option>
+
+                                            </select>
+                                        </form>
+
+                                        <form name="form1" style="float: right">
+                                            <select id="menu1" name="menu1" size="1" class="form-control">
+                                                <option disabled="disabled" selected="selected"><h7>Switch Namespace</h7></option>
+                                                <option  th:each="ns : ${ns}" th:text="${ns['Name']}"></option>
+                                            </select>
+                                        </form>
+                                    </div>
+                                    <br><br>
+                                    <div th:if="${#lists.size(resource)} != 0">
+
+
+                                        <table class="table ">
+                                            <thead>
+                                                <tr>
+                                                    <th th:each="h : ${headings}" th:text="${h}" scope="col" style="background: powderblue;">#</th>                                   
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                <tr th:style="${resource['Status']} != 'Active' ? 'background: rgba(255,0,0,0.1)' : 'background: inherit'" th:each="resource : ${resource}" th:if="${resourceHead == 'Namespaces'}">
+
+                                                    <td th:text="${resource['Name']}"></td>
+                                                    <td th:text="${resource['Status']}"></td>
+                                                    <td th:text="${resource['Age']}"></td>
+                                                </tr>
+                                                <tr  th:style="${resource['Status']} == 'false' ? 'background: rgba(255,0,0,0.1)' : 'background: inherit'"  th:each="resource : ${resource}" th:if="${resourceHead == 'Pods'}">
+                                                    <td th:text="${resource['Name']}"></td>
+                                                    <td th:text="${resource['Ready']}"></td>
+                                                    <td th:text="${resource['Restarts']}"></td>
+                                                    <td th:text="${resource['Status']}"></td>
+                                                    <td th:text="${resource['Age']}"></td>
+                                                    <td th:text="${resource['Namespace']}" th:if="${resource['Namespace']}"></td>
+                                                    <!--                                                    <td th:if="${resource['Namespace']}"> <a href="#" data-toggle="tooltip" th:title="${logs[resource['Name']]}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                                                                                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                                                                                                            <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                                                                                            </svg></a></td>-->
+                                                    <td>
+                                                        <button style="color:black;background-color: white;border-color: white; " type="button" class="btn btn-secondary" data-container="body" data-toggle="popover" data-placement="left" th:data-content="${logs[resource['Name']]}">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                                            <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                                            <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                                            </svg>
+                                                        </button>
+                                                    </td>
+                                                </tr>
+                                                <tr th:style="${resource['status']} != 'Ready' ? 'background: rgba(255,0,0,0.1)' : 'background: inherit'" th:each="resource : ${resource}" th:if="${resourceHead == 'Nodes'}">
+
+                                                    <td th:text="${resource['Name']}"></td>
+                                                    <td th:text="${resource['Version']}"></td>
+
+                                                    <td th:text="${resource['status']}"></td>
+                                                    <td th:text="${resource['Age']}"></td>
+                                                </tr>
+                                                <tr  th:each="resource : ${resource}" th:if="${resourceHead == 'Deployments'}">
+
+                                                    <td th:text="${resource['Name']}"></td>
+
+                                                    <td th:text="${resource['Up-To-Date']}"></td>
+                                                    <td th:text="${resource['Available']}"></td>
+                                                    <td th:text="${resource['Ready']}"></td>
+                                                    <td th:text="${resource['Namespace']}" th:if="${resource['Namespace']}"></td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div th:if="${#lists.size(resource)} == 0">
+                                        <br>
+                                        <center><h6>There are no <span th:text="${resourceHead}"></span> to be displayed</h6></center>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+        <script type="text/javascript" th:src="@{js/main.js}"></script>
+        <script type="text/javascript" th:src="@{webjars/bootstrap/4.2.1/js/bootstrap.min.js}"></script>
+        <script type="text/javascript">
+            const allowed_namespace_changer = ["pod", "deployment"];
+            let url = new URL(location.href);
+            if (allowed_namespace_changer.some(v => url.href.includes(v))) {
+                // There's at least one
+                var urlmenu = document.getElementById('menu1');
+                urlmenu.onchange = function () {
+                    let params = new URLSearchParams(url.search);
+                    console.log(url);
+                    params.delete('namespace');
+                    params.append('namespace', this.value);
+                    document.location.search = params;
+                }
+            }
+            var urlmenu2 = document.getElementById('menu2');
+            urlmenu2.onchange = function () {
+                let params = new URLSearchParams(url.search);
+                console.log(url);
+                params.delete('cluster');
+                params.append('cluster', this.value);
+                document.location.search = params;
+            };
+
+        </script>
+    </body>
+</html>
