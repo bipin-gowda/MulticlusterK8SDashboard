@@ -33,10 +33,10 @@ public class TestController {
     @Autowired
     UsersService usersService;
 
-    private String message;
-
     @Value("${tomtom.apikey}")
     private String tomTomApiKey;
+    
+    
 
     private List<Location> coolLocations() {
         
@@ -47,13 +47,6 @@ public class TestController {
             double i2 = clusters.get(i).getLatitude();
             String i3 = clusters.get(i).getName();
             l.add(new Location(new double[]{i1, i2}, i3));
-            
-           
-//        return List.of(
-//                new Location(new double[]{139.6503, 35.6762}, "Tokyo CDC"),
-//                new Location(new double[]{135.1956, 34.6901}, "Kobe CDC"),
-//                new Location(new double[]{135.5023, 34.6937}, "Osaka CDC")
-//        );
         }
         return l;
     }
@@ -113,7 +106,7 @@ public class TestController {
             throws IOException, IllegalStateException, ApiException {
 
         String validate = usersService.authenticate(user.getUsername(), user.getPassword());
-        System.out.println(user.getUsername() + user.getPassword() + validate);
+//        System.out.println(user.getUsername() + user.getPassword() + validate);
         if (validate.equals("Success")) {
            
            return("redirect:/view-clusters");
@@ -122,20 +115,7 @@ public class TestController {
         }
     }
 
-    @GetMapping("/home")
-    public String main(Model model) throws IOException, ApiException {
-
-        HashMap<String, String> cluster_configs = new HashMap<String, String>();
-        List<Cluster> clusters = clusterService.getAllCluster();
-        for (int i = 0; i < clusters.size(); i++) {
-            String path = (clusters.get(i).getConfig());
-            String content = new String(Files.readAllBytes(Paths.get(path)));
-            cluster_configs.put(clusters.get(i).getName(), content);
-        }
-        model.addAttribute("clusters", clusters);
-        model.addAttribute("configs", cluster_configs);
-        return "cluster"; //view
-    }
+    
 
     @GetMapping("/register-cluster")
     public String home(Model model) {
