@@ -11,6 +11,8 @@ Once you have downloaded this project a few changes are required before you can 
 **2. Open application.properties file -** 
 
     Add your TomTom API key for the variable '﻿tomtom.apikey'.
+    
+    Go to https://developer.tomtom.com/ to create a new account and generate your API key.
 
     Verify all the MongoDB parameters and modify the port or database name based on your configuration.
 
@@ -23,6 +25,8 @@ Once you have downloaded this project a few changes are required before you can 
     Modify the username and password at line number 18 and 19. This should be the credentials of your machine which will be used to access the terminal.
 
 Once the above changes are done, you can proceed to build and run this project on any IDE.
+
+./mvnw spring-boot:run
 
 The UI can be accessed at http://localhost:8080/login
 
