@@ -26,7 +26,7 @@ Once you have downloaded this project a few changes are required before you can 
 
 Once the above changes are done, you can proceed to build and run this project on any IDE.
 
-./mvnw spring-boot:run
+    ./mvnw spring-boot:run
 
 The UI can be accessed at http://localhost:8080/login
 
